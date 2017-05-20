@@ -1,0 +1,107 @@
+import java.util.*;
+public class MyClass {
+	
+	public Scanner sc = new Scanner(System.in);
+
+	public static void main(String s[]){
+		
+		System.out.println("Hello");//Opening text
+		System.out.println("Do you wish to deposit money or withdraw money??");
+		bankATM ba = new bankATM();
+		ba.OpeningUserInput();
+		
+	}
+}
+
+class bankATM{
+	
+	Scanner sc1 = new Scanner(System.in);
+	
+	int atmID;//All variables in class bankATM
+	String bankName;
+	String location;
+	public double balance;
+	public double withdrawal;
+	public double deposit;
+	
+	
+	bankATM(){
+		
+		atmID = 980;
+		bankName = "ICICI bank";
+		location = "Koramangala, Bangalore";
+		balance = 10002;
+		
+	}
+	
+void OpeningUserInput(){
+		//This allows the user to decide whether he wants to deposit or withdraw money
+		String userInput = sc1.next();
+	
+		if(userInput.equals("withdraw")){
+		withdrawal();
+		}
+		else if (userInput.equals("deposit")){
+		deposit();
+		}
+		else{
+			System.out.println("please type'deposit' or 'withdraw' to continue");
+			OpeningUserInput();
+		}
+	
+}
+	
+	void withdrawal(){//method to withdraw money
+		
+		System.out.println("Balance in account = " + balance);
+		System.out.println("Please enter the amount of money you want to withdraw from your account-");
+		
+		withdrawal = sc1.nextDouble();
+		
+		if(withdrawal > balance){
+			try {
+				throw new bankATMException();//this is the exception thrown when withdrawal amount is greater than balance
+			} catch (bankATMException e) {
+				System.out.println("Sorry, withdrawal amount is greater then balance in account. Please deposit money first");
+				System.out.println("");
+				deposit();//Redirects to deposit so that user can deposit money
+			}
+		}
+		else{
+			balance =  balance - withdrawal;
+			System.out.println("Your withdrawal was successful. Balance left = " + balance);
+			System.out.println("Thank You");
+		}
+		
+		
+	}
+	
+	void deposit(){
+		//method for depositing money
+		System.out.println("Balance in your account = " + balance);
+		System.out.println("Please enter the amount of money you want to deposit into your account-");
+		deposit = sc1.nextDouble();
+		balance = balance + deposit;
+		System.out.println("Congratulations, " + deposit + " rupees have been added to your account. Balance = " + balance);
+		System.exit(0);
+		
+	}
+}
+
+class bankATMException extends Exception{
+	
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	
+	bankATMException() {
+	     
+	   }
+	   public String toString(){
+	     return ("Sorry") ;
+	  }
+}
+
